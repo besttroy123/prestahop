@@ -1,8 +1,13 @@
 # Używamy obrazu PHP z Apache
 FROM php:7.4-apache
 
-# Instalacja wymaganych rozszerzeń PHP
-RUN apt-get update && apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev libicu-dev libzip-dev && \
+# Instalacja wymaganych rozszerzeń PHP (zip, gd, intl, itd.)
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libicu-dev \
+    libzip-dev && \
     docker-php-ext-configure gd --with-freetype --with-jpeg && \
     docker-php-ext-install gd intl zip && \
     a2enmod rewrite
