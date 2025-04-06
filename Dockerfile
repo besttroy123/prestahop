@@ -1,7 +1,7 @@
-# Używamy obrazu PHP z Apache
+# Użycie obrazu PHP z Apache
 FROM php:7.4-apache
 
-# Instalacja wymaganych rozszerzeń PHP (zip, gd, intl, itd.)
+# Instalacja wymaganych zależności PHP
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
@@ -12,20 +12,20 @@ RUN apt-get update && apt-get install -y \
     docker-php-ext-install gd intl zip && \
     a2enmod rewrite
 
-# Skopiowanie plików PrestaShop
+# Skopiowanie plików PrestaShop z repozytorium do kontenera
 COPY . /var/www/html/
 
-# Ustawienie uprawnień do katalogów PrestaShop
+# Ustawienie odpowiednich uprawnień
 RUN chown -R www-data:www-data /var/www/html/
 
-# Zmiana katalogu roboczego
+# Konfiguracja katalogu roboczego
 WORKDIR /var/www/html/
 
-# Ustawienie dokumentu głównego
+# Wskazanie głównego katalogu dokumentów
 ENV APACHE_DOCUMENT_ROOT /var/www/html
 
-# Exponowanie portu 80
+# Ekspozycja portu 80
 EXPOSE 80
 
-# Uruchomienie Apache w trybie przód
+# Uruchomienie Apache w trybie foreground
 CMD ["apache2-foreground"]
